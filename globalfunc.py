@@ -13,11 +13,11 @@ import login
 masterwiki =  mwclient.Site('en.wikipedia.org')
 masterwiki.login(login.username,login.password)
 
-#db = mysql.connector.connect(host=accountinfo.host,    # your host, usually localhost
-#                     user=accountinfo.user,         # your username
-#                     passwd=accountinfo.passwd,  # your password
-#                     db=accountinfo.db)        # name of the data base
-#cur = db.cursor()
+db = mysql.connector.connect(host=login.host,    # your host, usually localhost
+                     user=login.sqluser,         # your username
+                     passwd=login.sqlpasswd,  # your password
+                     db=login.db)        # name of the data base
+cur = db.cursor()
 
 def callAPI(params):
     return masterwiki.api(**params)
@@ -48,9 +48,12 @@ def processMembers():
 	for user in memberlist:
 		page = masterwiki.pages[user]
 		text = page.text()
-		print text.split("{{UTRS-unblock-user|")[1].split("|")[0]
 		try:
-			one=1
+			utrsID = text.split("{{UTRS-unblock-user|")[1].split("|")[0]
+			print utrsID
+			cur.execute("SELECT status FROM enwikipedia.appeal where appealid=%s;" %(utrsID))
+			table = cur.fetchall()
+			print table
 		except:
 			print "Failed to get page for: ",user
 			continue
