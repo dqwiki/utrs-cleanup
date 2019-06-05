@@ -51,7 +51,7 @@ def processMembers():
 		try:
 			utrsIDs = text.split("{{UTRS-unblock-user|")
 			for item in utrsIDs:
-				if "UTRSBot" not in item:continue
+				if "UTRSBot" not in item or "|closed" in item:continue
 				utrsID = item.split("|")[0]
 				print utrsID
 				cur.execute("SELECT status FROM enwikipedia.appeal where appealid=%s;" %(utrsID))
@@ -69,4 +69,6 @@ def processMembers():
 		except:
 			print "Failed to get page for: ",user
 			continue
+		raise Exception('Stop')
+	raise Exception('Stop')
 processMembers()
