@@ -59,7 +59,7 @@ def processMembers():
 			cur.execute("SELECT appealID,status FROM enwikipedia.appeal where appealid=%s;" %(utrsID))
 			table = cur.fetchall()
 			for row in table:
-				if row[0] != utrsID:
+				if int(row[0]) != int(utrsID):
 					print row[0]," - ",utrsID
 					raise Exception('Failure to sync numbers')
 				if row[1] == "CLOSED":
