@@ -63,7 +63,8 @@ def processMembers():
 					print row[0]," - ",utrsID
 					raise Exception('Failure to sync numbers')
 				if row[1] == "CLOSED":
-					templateString = text.split("{{UTRS-unblock-user|")[1].split("}}")[0]
+					templateString = text.split("{{UTRS-unblock-user|"+str(utrsID))[1].split("}}")[0]
+					print "templateString: ", templateString
 					newstring = templateString +"|closed"
 					newstring = "{{UTRS-unblock-user|"+newstring+"}}"
 					text = text.replace("{{UTRS-unblock-user|"+templateString+"}}",newstring,1)
