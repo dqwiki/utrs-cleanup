@@ -28,7 +28,7 @@ def getCurrentMembers(category):
         	'list': 'categorymembers',
         	'cmtitle': category,
                 'cmnamespace':'3',
-                'cmlimit':'50',
+                'cmlimit':'500',
                 'format':'json',
                 'rawcontinue':'1'
                 }
@@ -66,7 +66,4 @@ def processMembers():
 		except:
 			print "Failed to get page for: ",user
 			continue
-	page = masterwiki.pages["Wikipedia:Bots/Requests for approval/DeltaQuadBot 7"]
-	text = page.text() + "\n*{{BotTrialComplete}} ~~~~"
-	page.save(text,"Notifying BRFA of trial complete")
 processMembers()
