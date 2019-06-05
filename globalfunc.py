@@ -49,20 +49,23 @@ def processMembers():
 		page = masterwiki.pages[user]
 		text = page.text()
 		try:
-			utrsID = text.split("{{UTRS-unblock-user|")[1].split("|")[0]
-			print utrsID
-			cur.execute("SELECT status FROM enwikipedia.appeal where appealid=%s;" %(utrsID))
-			table = cur.fetchall()
-			for row in table:
-				if row[0] == "CLOSED":
-					templateString = text.split("{{UTRS-unblock-user|")[1].split("}}")[0]
-					newstring = templateString +"|closed"
-					newstring = "{{UTRS-unblock-user|"+newstring+"}}"
-					text = text.replace("{{UTRS-unblock-user|"+templateString+"}}",newstring,1)
-					page.save(text,"Syncing closed UTRS appeal status manually")
-					time.sleep(5)
-				else:
-					print "Appeal #",utrsID," is not closed. SKIPPING"
+			utrsIDs = text.split("{{UTRS-unblock-user|")
+			print utrsIDs
+			for item in utrsIDs:
+				if "UTRSBot" not in item:continue
+				utrsID = item.split("|")[0]
+				cur.execute("SELECT status FROM enwikipedia.appeal where appealid=%s;" %(utrsID))
+				table = cur.fetchall()
+				for row in table:
+					if row[0] == "CLOSED":
+						templateString = text.split("{{UTRS-unblock-user|")[1].split("}}")[0]
+						newstring = templateString +"|closed"
+						newstring = "{{UTRS-unblock-user|"+newstring+"}}"
+						text = text.replace("{{UTRS-unblock-user|"+templateString+"}}",newstring,1)
+						page.save(text,"Syncing closed UTRS appeal status manually")
+						time.sleep(5)
+					else:
+						print "Appeal #",utrsID," is not closed. SKIPPING"
 		except:
 			print "Failed to get page for: ",user
 			continue
