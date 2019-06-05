@@ -50,10 +50,10 @@ def processMembers():
 		text = page.text()
 		try:
 			utrsIDs = text.split("{{UTRS-unblock-user|")
-			print utrsIDs
 			for item in utrsIDs:
 				if "UTRSBot" not in item:continue
 				utrsID = item.split("|")[0]
+				print utrsID
 				cur.execute("SELECT status FROM enwikipedia.appeal where appealid=%s;" %(utrsID))
 				table = cur.fetchall()
 				for row in table:
