@@ -56,10 +56,13 @@ def processMembers():
 				print item
 				utrsID = item.split("|")[0]
 				print utrsID
-				cur.execute("SELECT status FROM enwikipedia.appeal where appealid=%s;" %(utrsID))
+				cur.execute("SELECT id,status FROM enwikipedia.appeal where appealid=%s;" %(utrsID))
 				table = cur.fetchall()
 				for row in table:
-					if row[0] == "CLOSED":
+					if row[0] != utrsID:
+						print row[0]," - ",utrsID
+						raise Exception('Failure to sync numbers')
+					if row[1] == "CLOSED":
 						templateString = text.split("{{UTRS-unblock-user|")[1].split("}}")[0]
 						newstring = templateString +"|closed"
 						newstring = "{{UTRS-unblock-user|"+newstring+"}}"
