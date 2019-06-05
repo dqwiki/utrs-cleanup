@@ -51,7 +51,7 @@ def processMembers():
 		try:
 			utrsIDs = text.split("{{UTRS-unblock-user|")
 			for item in utrsIDs:
-				if "UTRSBot" not in item or "|closed" in item:continue
+				if "UTRSBot" not in item or "\|closed" in item:continue
 				print item
 				utrsID = item.split("|")[0]
 				print utrsID
