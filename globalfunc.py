@@ -48,18 +48,17 @@ def processMembers():
 	for user in memberlist:
 		page = masterwiki.pages[user]
 		text = page.text()
-		try:
-			utrsID = text.split("{{UTRS-unblock-user|")[1].split("|")[0]
-			print utrsID
-			cur.execute("SELECT status FROM enwikipedia.appeal where appealid=%s;" %(utrsID))
-			table = cur.fetchall()
-			status = table[1]
-			if status == "CLOSED":
-				print "Appeal is closed"
-			else:
-				print status
-		except:
-			print "Failed to get page for: ",user
-			continue
+		utrsID = text.split("{{UTRS-unblock-user|")[1].split("|")[0]
+		print utrsID
+		cur.execute("SELECT status FROM enwikipedia.appeal where appealid=%s;" %(utrsID))
+		table = cur.fetchall()
+		status = table[1]
+		if status == "CLOSED":
+			print "Appeal is closed"
+		else:
+			print status
+		#except:
+			#print "Failed to get page for: ",user
+			#continue
 	
 processMembers()
