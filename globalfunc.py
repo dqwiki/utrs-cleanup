@@ -54,11 +54,17 @@ def processMembers():
 		table = cur.fetchall()
 		for row in table:
 			if row[0] == "CLOSED":
-				print "Appeal is closed"
+				templateString = text.split("{{UTRS-unblock-user|")[1].split("}}")[0]
+				newstring = templateString.replace("}}","|closed}}")
+				text = text.replace("{{UTRS-unblock-user|"+templateString+"}}",newstring)
+				page.save(text,"Syncing closed UTRS appeal status manually")
+				time.sleep(5)
+				raise Exception("Stop")
 			else:
-				print row[0]
+				print "Appeal #",utrsID," is not closed. SKIPPING"
 		#except:
 			#print "Failed to get page for: ",user
 			#continue
+	raise Exception("Stop")
 	
 processMembers()
