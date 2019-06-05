@@ -67,10 +67,10 @@ def processMembers():
 					print "templateString: ", templateString
 					newstring = templateString +"|closed"
 					newstring = "{{UTRS-unblock-user|"+str(utrsID)+"|"+newstring+"}}"
-					text = text.replace("{{UTRS-unblock-user|"+str(utrsID)+"|"+templateString+"}}",newstring,1)
-					print "Old: ","{{UTRS-unblock-user|"+str(utrsID)+"|"+templateString+"}}"
+					text = text.replace("{{UTRS-unblock-user|"+str(utrsID)+templateString+"}}",newstring,1)
+					print "Old: ","{{UTRS-unblock-user|"+str(utrsID)+templateString+"}}"
 					print "New: ",newstring
-					#page.save(text,"Syncing closed UTRS appeal status manually")
+					page.save(text,"Syncing closed UTRS appeal status manually")
 					time.sleep(5)
 				else:
 					print "Appeal #",utrsID," is not closed. SKIPPING"
