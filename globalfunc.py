@@ -58,7 +58,7 @@ def processMembers():
 					templateString = text.split("{{UTRS-unblock-user|")[1].split("}}")[0]
 					newstring = templateString +"|closed"
 					newstring = "{{UTRS-unblock-user|"+newstring+"}}"
-					text = text.replace("{{UTRS-unblock-user|"+templateString+"}}",newstring)
+					text = text.replace("{{UTRS-unblock-user|"+templateString+"}}",newstring,1)
 					page.save(text,"Syncing closed UTRS appeal status manually")
 					time.sleep(5)
 				else:
