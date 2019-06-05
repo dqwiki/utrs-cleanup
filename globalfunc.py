@@ -56,7 +56,7 @@ def processMembers():
 			print item
 			utrsID = item.split("|")[0]
 			print utrsID
-			cur.execute("SELECT id,status FROM enwikipedia.appeal where appealid=%s;" %(utrsID))
+			cur.execute("SELECT appealID,status FROM enwikipedia.appeal where appealid=%s;" %(utrsID))
 			table = cur.fetchall()
 			for row in table:
 				if row[0] != utrsID:
