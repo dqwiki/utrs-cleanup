@@ -53,7 +53,11 @@ def processMembers():
 			print utrsID
 			cur.execute("SELECT status FROM enwikipedia.appeal where appealid=%s;" %(utrsID))
 			table = cur.fetchall()
-			print table
+			status = table[1]
+			if status = "CLOSED":
+				print "Appeal is closed"
+			else:
+				print status
 		except:
 			print "Failed to get page for: ",user
 			continue
