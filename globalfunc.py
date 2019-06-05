@@ -48,34 +48,34 @@ def processMembers():
 	for user in memberlist:
 		page = masterwiki.pages[user]
 		text = page.text()
-		try:
-			utrsIDs = text.split("{{UTRS-unblock-user|")
-			for item in utrsIDs:
-				if "UTRSBot" not in item:continue
-				if "closed}}" in item:continue
-				print item
-				utrsID = item.split("|")[0]
-				print utrsID
-				cur.execute("SELECT id,status FROM enwikipedia.appeal where appealid=%s;" %(utrsID))
-				table = cur.fetchall()
-				for row in table:
-					if row[0] != utrsID:
-						print row[0]," - ",utrsID
-						raise Exception('Failure to sync numbers')
-					if row[1] == "CLOSED":
-						templateString = text.split("{{UTRS-unblock-user|")[1].split("}}")[0]
-						newstring = templateString +"|closed"
-						newstring = "{{UTRS-unblock-user|"+newstring+"}}"
-						text = text.replace("{{UTRS-unblock-user|"+templateString+"}}",newstring,1)
-						print "Old: ","{{UTRS-unblock-user|"+templateString+"}}"
-						print "New: ",newstring
-						#page.save(text,"Syncing closed UTRS appeal status manually")
-						time.sleep(5)
-					else:
-						print "Appeal #",utrsID," is not closed. SKIPPING"
-		except:
-			print "Failed to get page for: ",user
-			continue
+		#try:
+		utrsIDs = text.split("{{UTRS-unblock-user|")
+		for item in utrsIDs:
+			if "UTRSBot" not in item:continue
+			if "closed}}" in item:continue
+			print item
+			utrsID = item.split("|")[0]
+			print utrsID
+			cur.execute("SELECT id,status FROM enwikipedia.appeal where appealid=%s;" %(utrsID))
+			table = cur.fetchall()
+			for row in table:
+				if row[0] != utrsID:
+					print row[0]," - ",utrsID
+					raise Exception('Failure to sync numbers')
+				if row[1] == "CLOSED":
+					templateString = text.split("{{UTRS-unblock-user|")[1].split("}}")[0]
+					newstring = templateString +"|closed"
+					newstring = "{{UTRS-unblock-user|"+newstring+"}}"
+					text = text.replace("{{UTRS-unblock-user|"+templateString+"}}",newstring,1)
+					print "Old: ","{{UTRS-unblock-user|"+templateString+"}}"
+					print "New: ",newstring
+					#page.save(text,"Syncing closed UTRS appeal status manually")
+					time.sleep(5)
+				else:
+					print "Appeal #",utrsID," is not closed. SKIPPING"
+		#except:
+			#print "Failed to get page for: ",user
+			#continue
 		raise Exception('Stop')
 	raise Exception('Stop')
 processMembers()
