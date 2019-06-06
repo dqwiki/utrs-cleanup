@@ -71,6 +71,11 @@ def processMembers():
 						print "New: ",newstring
 						page.save(text,"Syncing closed UTRS appeal status manually")
 						time.sleep(5)
+					elif row[1] =="INVALID":
+						templateString = text.split("{{UTRS-unblock-user|"+str(utrsID))[1].split("}}")[0]
+						print "templateString: ", templateString
+						text = text.replace("{{UTRS-unblock-user|"+str(utrsID)+templateString+"}}","",1)
+						page.save(text,"Removing invalid appeal - please ignore this appeal")
 					else:
 						print "Appeal #",utrsID," is not closed. SKIPPING"
 		except:
